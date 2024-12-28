@@ -1,4 +1,4 @@
-import { IProperty } from "./IProperty";
+import { IProperty } from "./IProperty.js";
 
 /**
  * Represents a player in the Monopoly game.

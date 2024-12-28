@@ -1,8 +1,10 @@
-import { IPlayer, IProperty, PlayerModel } from "#database/model/player";
 import { User } from "discord.js";
-import { BoardSpace } from "./boardSpace";
-import { Card } from "./card";
-import { Property } from "./property";
+import { IProperty, PlayerModel } from "src/database/player.js";
+import { IPlayer } from "../types/monopoly/IPlayers.js";
+import { BoardSpace } from "./boardSpace.js";
+import { Card } from "./card.js";
+import { Property } from "./property.js";
+
 
 export class Player implements IPlayer{
     userId: string | null;
@@ -21,8 +23,8 @@ export class Player implements IPlayer{
         dateEarned: Date;
     }[];
     isAI: boolean;
-    chanceCardsDrawn: number;
-    communityChestCardsDrawn: number;
+    chanceCardsDrawn!: number;
+    communityChestCardsDrawn!: number;
 
     /**
      * Creates an instance of Player.
@@ -30,7 +32,7 @@ export class Player implements IPlayer{
      * @param isAI - Whether the player is an AI player.
      */
     constructor(user: User | null, isAI: boolean = false) {
-        this.userId = user.id;
+        this.userId = user!.id;
         this.name = user ? user.username : 'AI Player';
         this.position = 0;
         this.money = 1500;
@@ -210,9 +212,9 @@ addProperty(property: Property) {
      * @returns True if the house was bought, false otherwise.
      */
     buyHouse(property: Property): boolean {
-        if (this.money >= property.houseCost && property.houses < 4 && !property.hotel) {
+        if (this.money >= property.houseCost && property.houses! < 4 && !property.hotel) {
             this.updateMoney(-property.houseCost);
-            property.houses += 1;
+            property.houses! += 1;
             this.save();
             return true;
         }

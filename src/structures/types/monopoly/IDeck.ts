@@ -1,4 +1,5 @@
-import { Card } from "#structures/monopoly/classes/card";
+import { Card } from "../../classes/card.js";
+
 
 /**
  * Represents a deck of cards in the Monopoly game.

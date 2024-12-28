@@ -1,15 +1,15 @@
-import { convertToIPlayer, getPlayerData, savePlayerData } from "#database/model/database";
-import { convertToProperty } from "#structures/monopoly/classes/boardSpace";
-import { MonopolyGame } from "#structures/monopoly/classes/monopoly";
-import { Achievement } from "#structures/monopoly/classes/rewards";
-import { createPropertyOrRailroadCard } from "#structures/monopoly/imageGeneration";
-import { SlashCommand } from "#type/slashCommands";
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import { Command } from "@yuudachi/framework";
+import { ArgsParam, InteractionParam } from "@yuudachi/framework/types";
+import "reflect-metadata";
+import { convertToIPlayer, getPlayerData, savePlayerData } from "../database/database.js";
+import { RollCommand } from "../slashinformation/roll.js";
+import { convertToProperty } from "../structures/classes/boardSpace.js";
+import { Achievement } from "../structures/classes/rewards.js";
+import { createPropertyOrRailroadCard } from "../structures/functions/imageGeneration.js";
 
-export const slashy: SlashCommand['slashy'] = new SlashCommandBuilder().setName('roll').setDescription('start a monopoly game');
-
-export const run: SlashCommand['run'] = async (game: MonopolyGame, interaction: ChatInputCommandInteraction<'cached'>): Promise<void> => {
-    if (game) {
+export default class extends Command<typeof RollCommand> {
+    public override async chatInput(interaction: InteractionParam, args: ArgsParam<typeof RollCommand>,locale:string): Promise<void> {
+      if (game) {
         const currentPlayer = game.turnManager.getCurrentPlayer();
         const diceRoll = game.rollDice();
         currentPlayer.move(diceRoll, game.board);
@@ -39,4 +39,10 @@ export const run: SlashCommand['run'] = async (game: MonopolyGame, interaction: 
     } else {
         await interaction.reply('No game is currently running. Use /startgame to start a new game.');
     }
+    }
 }
+
+
+
+
+

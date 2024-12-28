@@ -1,8 +1,7 @@
-import { convertToIPlayer, savePlayerData } from '#database/model/database';
-import { MonopolyGame } from '#structures/monopoly/classes/monopoly';
-import { Player as PlayerClass } from '#structures/monopoly/classes/players';
-import { CardActionType, CardType, ICard } from '#type/cards';
-
+import { convertToIPlayer, savePlayerData } from "src/database/database.js";
+import { CardActionType, CardType, ICard } from "../types/monopoly/ICards.js";
+import { MonopolyGame } from "./monopoly.js";
+// missing import player as playerclass .. 
 
 /**
  * Represents a card in the Monopoly game.

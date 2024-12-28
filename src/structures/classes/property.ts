@@ -1,6 +1,6 @@
-// models/Property.ts
-import { IProperty } from '#database/model/player';
-import { Player } from './players';
+import { IProperty } from "src/database/player.js";
+import { Player } from "./players.js";
+
 
 /**
  * Represents a property in the Monopoly game.
@@ -19,14 +19,14 @@ export class Property implements IProperty {
     houses: number | null;
     hotel: boolean;
     corner: boolean;
-    owner: Player | null;
+    owner: Player | undefined;
     position: number;
-    isOwned: boolean;
-    isDeveloped: boolean;
+    isOwned: boolean = false;
+    isDeveloped: boolean = false;
 
     constructor(data: Property) {
         this.name = data.name;
-        this.type = 'property'; // Assuming a default type
+        this.type = 'property'; // default type
         this.cost = data.cost;
         this.mortgage = data.mortgage;
         this.mortgaged = false;
@@ -38,7 +38,7 @@ export class Property implements IProperty {
         this.houses = 0;
         this.hotel = false;
         this.corner = false;
-        this.owner = null;
+        this.owner = data.owner;
         this.position = data.position;
     }
 
@@ -49,8 +49,8 @@ export class Property implements IProperty {
     calculateRent(): number {
         if (this.hotel) {
             return this.multpliedrent[4];
-        } else if (this.houses > 0) {
-            return this.multpliedrent[this.houses - 1];
+        } else if (this.houses! > 0) {
+            return this.multpliedrent[this.houses! - 1];
         } else {
             return this.rent;
         }
@@ -113,9 +113,9 @@ export class Property implements IProperty {
     }
 
     buildHouse(properties: Property[]): void {
-        if (this.houses < 4 && !this.hotel && this.ownsEntireGroup(properties)) {
-            this.houses += 1;
-            this.owner!.money -= this.houses;
+        if (this.houses! < 4 && !this.hotel && this.ownsEntireGroup(properties)) {
+            this.houses! += 1;
+            this.owner!.money -= this.houses!;
             this.isDeveloped = true;
             this.owner!.save();
         }
@@ -132,8 +132,8 @@ export class Property implements IProperty {
     }
 
     sellHouse(): void {
-        if (this.houses > 0) {
-            this.houses -= 1;
+        if (this.houses! > 0) {
+            this.houses! -= 1;
             this.owner!.money += this.houseCost / 2;
             if (this.houses === 0 && !this.hotel) {
                 this.isDeveloped = false;

@@ -1,4 +1,5 @@
-import { IDeck } from "#type/IDeck";
+
+import { IDeck } from "../types/monopoly/IDeck";
 import { Card } from "./card";
 /**
  * Represents a deck of cards in the Monopoly game.
@@ -16,5 +17,6 @@ export class Deck implements IDeck {
 
     addCard(card: Card): void {
         this.cards.push(card);
+        return
     }
 }

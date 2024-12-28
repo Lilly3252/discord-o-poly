@@ -1,7 +1,7 @@
-import { IPlayer } from '#type/IPlayers';
-import { IProperty } from '#type/IProperty';
-import mongoose, { Schema } from 'mongoose';
 
+import mongoose, { Schema } from 'mongoose';
+import { IPlayer } from '../structures/types/monopoly/IPlayers.js';
+import { IProperty } from '../structures/types/monopoly/IProperty.js';
 
 const PlayerSchema: Schema = new Schema({
     userId: { type: String, required: true }, 

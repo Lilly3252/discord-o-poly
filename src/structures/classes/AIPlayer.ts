@@ -1,6 +1,7 @@
-import { MonopolyGame } from "#structures/monopoly/classes/monopoly";
-import { Player } from "#structures/monopoly/classes/players";
-import { IAIPlayer } from "#type/IAIPlayer";
+import { IAIPlayer } from "../types/monopoly/IAIPlayer.js";
+import { MonopolyGame } from "./monopoly.js";
+import { Player } from "./players.js";
+
 
 /**
  * Represents an AI player in the Monopoly game.
@@ -51,12 +52,12 @@ export class AIPlayer extends Player implements IAIPlayer {
      */
     async manageProperties(game: MonopolyGame) {
         for (const property of this.properties) {
-            const groupProperties = game.board.filter(space => space.group.includes(property.group[0]));
+            const groupProperties = game.board.filter(space => space.group!.includes(property.group![0]));
             const ownsAllInGroup = groupProperties.every(space => space.owner === this.name as unknown as Player);
 
-            if (ownsAllInGroup && this.money >= property.houses) {
-                property.houses++;
-                this.money -= property.houseCost;
+            if (ownsAllInGroup && this.money >= property.houses!) {
+                property.houses!++;
+                this.money -= property.houseCost!;
                 console.log(`${this.name} built a house on ${property.name}`);
                 await this.save();
             }
@@ -71,7 +72,7 @@ export class AIPlayer extends Player implements IAIPlayer {
         for (const player of game.players) {
             if (player !== this) {
                 for (const property of this.properties) {
-                    if (!property.group.includes(player.properties[0].group[0])) {
+                    if (!property.group!.includes(player.properties[0].group![0])) {
                         // Propose a trade
                         console.log(`${this.name} proposes a trade with ${player.name}`);
                         const tradeSuccessful = await this.executeTrade(player, property);

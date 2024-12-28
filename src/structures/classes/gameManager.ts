@@ -1,6 +1,7 @@
-import { IGameManager } from "#type/IGameManager";
-import { AIPlayer } from "./AIPlayer";
-import { MonopolyGame } from "./monopoly";
+import { IGameManager } from "../types/monopoly/IGameManager.js";
+import { AIPlayer } from "./AIPlayer.js";
+import { MonopolyGame } from "./monopoly.js";
+
 
 
 /**

@@ -1,20 +1,12 @@
-import { PlayerModel } from "#database/model/player";
-import { MonopolyGame } from "#structures/monopoly/classes/monopoly";
-import { createStandardEmbed } from "#structures/monopoly/functions/standarizedEmbed";
-import { SlashCommand } from "#type/slashCommands";
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import { Command } from "@yuudachi/framework";
+import { ArgsParam, InteractionParam } from "@yuudachi/framework/types";
+import "reflect-metadata";
+import { PlayerModel } from "../database/player.js";
+import { ShowInfoCommand } from "../slashinformation/showInfo.js";
 
-export const slashy: SlashCommand['slashy'] = new SlashCommandBuilder()
-    .setName('showinfo')
-    .setDescription('Displays player information.')
-    .addStringOption(option => 
-        option.setName('userid')
-            .setDescription('The user ID of the player')
-            .setRequired(true)
-    );
-
-export const run: SlashCommand['run'] = async (game: MonopolyGame,interaction: ChatInputCommandInteraction<'cached'>): Promise<void> => {
-    const userId = interaction.options.getString('userid', true);
+export default class extends Command<typeof ShowInfoCommand> {
+    public override async chatInput(interaction: InteractionParam, args: ArgsParam<typeof ShowInfoCommand>,locale:string): Promise<void> {
+       const userId = interaction.options.getString('userid', true);
 
     try {
         const player = await PlayerModel.findOne({ userId }).exec();
@@ -58,4 +50,16 @@ export const run: SlashCommand['run'] = async (game: MonopolyGame,interaction: C
             ephemeral: true,
         });
     }
-};
+    }
+}
+
+
+
+
+
+
+
+
+
+
+

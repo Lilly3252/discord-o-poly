@@ -1,6 +1,7 @@
-import { IBank } from "#type/IBank";
-import { Player } from "./players";
-import { Property } from "./property";
+import { IBank } from "../types/monopoly/IBank.js";
+import { Player } from "./players.js";
+import { Property } from "./property.js";
+
 
 /**
  * Represents the bank in the Monopoly game.
@@ -9,7 +10,7 @@ export class Bank implements IBank{
     money: number;
     houses: number;
     hotels: number;
-    property: Property;
+    property: Property | undefined;
 
     /**
      * Creates an instance of Bank.
@@ -25,7 +26,7 @@ export class Bank implements IBank{
 
     /**
      * Distributes money from the bank to a player.
-     * @param player - The player receiving the money.
+     * @param player - The player receiving the money.S
      * @param amount - The amount of money to distribute.
      */
     distributeMoney(player: Player, amount: number) {
@@ -54,7 +55,7 @@ export class Bank implements IBank{
      */
     buyHouse(player: Player, property: string) {
         if (this.houses > 0) {
-            player.updateMoney(-this.property.houseCost);
+            player.updateMoney(-this.property!.houseCost);
             this.houses -= 1;
         } else {
             console.log('No houses left in the bank.');
@@ -68,7 +69,7 @@ export class Bank implements IBank{
      */
     buyHotel(player: Player, property: string) {
         if (this.hotels > 0) {
-            player.updateMoney(-this.property.houseCost);
+            player.updateMoney(-this.property!.houseCost);
             this.hotels -= 1;
         } else {
             console.log('No hotels left in the bank.');

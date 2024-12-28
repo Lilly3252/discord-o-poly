@@ -1,7 +1,9 @@
 // types/ITrade.ts
 
-import { Player } from "#structures/monopoly/classes/players";
-import { Property } from "#structures/monopoly/classes/property";
+import { Player } from "../../classes/players.js";
+import { Property } from "../../classes/property.js";
+
+
 
 
 /**

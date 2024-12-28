@@ -1,4 +1,5 @@
-import { Player } from "#structures/monopoly/classes/players";
+import { Player } from "../../classes/players.js";
+
 
 /**
  * Represents a property in the Monopoly game.

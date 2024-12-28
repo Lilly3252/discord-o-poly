@@ -1,5 +1,7 @@
 // types/IGameManager.ts
-import { MonopolyGame } from '#structures/monopoly/classes/monopoly';
+
+import { MonopolyGame } from "../../classes/monopoly.js";
+
 
 /**
  * Manages Monopoly games for different channels.

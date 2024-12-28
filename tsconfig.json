@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"emitDecoratorMetadata": true,
+		"module": "NodeNext",
+		"moduleResolution": "Node16",
+		"experimentalDecorators": true,
+		"resolveJsonModule": true,
+		"rootDir": "src",
+		"outDir": "dist",
+		"baseUrl": "./",
+		"strict": true,
+		"paths": {
+			
+		},
+		"skipLibCheck": true
+	},
+	"include": ["src"]
+}

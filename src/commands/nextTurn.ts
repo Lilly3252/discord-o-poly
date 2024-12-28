@@ -1,12 +1,13 @@
-import { AIPlayer } from "#structures/monopoly/classes/AIPlayer";
-import { MonopolyGame } from "#structures/monopoly/classes/monopoly";
-import { SlashCommand } from "#type/slashCommands";
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 
-export const slashy: SlashCommand['slashy'] = new SlashCommandBuilder().setName('nextturn').setDescription('Proceed to the next turn');
+import { Command } from "@yuudachi/framework";
+import { ArgsParam, InteractionParam } from "@yuudachi/framework/types";
+import "reflect-metadata";
+import { nextTurnCommand } from "../slashinformation/nextTurn.js";
+import { AIPlayer } from "../structures/classes/AIPlayer.js";
 
-export const run: SlashCommand['run'] = async (game: MonopolyGame, interaction: ChatInputCommandInteraction<'cached'>): Promise<void> => {
-    if (game) {
+export default class extends Command<typeof nextTurnCommand> {
+    public override async chatInput(interaction: InteractionParam, args: ArgsParam<typeof nextTurnCommand>,locale:string): Promise<void> {
+        if (game) {
         game.nextTurn();
         const currentPlayer = game.turnManager.getCurrentPlayer();
 
@@ -21,5 +22,6 @@ export const run: SlashCommand['run'] = async (game: MonopolyGame, interaction: 
         }
     } else {
         await interaction.reply('No game is currently running. Use /startgame to start a new game.');
+    }
     }
 }

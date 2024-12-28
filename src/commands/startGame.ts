@@ -1,27 +1,16 @@
+import { Command } from "@yuudachi/framework";
+import { ArgsParam, InteractionParam } from "@yuudachi/framework/types";
+import { ActionRowBuilder, ButtonBuilder } from 'discord.js';
+import "reflect-metadata";
+import { loadCardData } from '../database/database.js';
+import { StartGameCommand } from "../slashinformation/startGame.js";
+import { Player } from '../structures/classes/players.js';
+import { acceptButton, declineButton } from '../structures/functions/buttons.js';
+import { gameDataMap } from '../structures/game.js';
 
-import { loadCardData } from '#database/model/database';
-import { MonopolyGame } from '#structures/monopoly/classes/monopoly';
-import { Player } from '#structures/monopoly/classes/players';
-import { acceptButton, declineButton } from '#structures/monopoly/functions/buttons';
-import { createStandardEmbed } from '#structures/monopoly/functions/standarizedEmbed';
-import { gameDataMap } from '#structures/monopoly/game';
-import type { SlashCommand } from '#type/slashCommands';
-import { ActionRowBuilder, ButtonBuilder, ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
-
-export const slashy: SlashCommand['slashy'] = new SlashCommandBuilder()
-    .setName('startgame')
-    .setDescription('Start a Monopoly game')
-    .addStringOption(option => 
-        option.setName('players')
-            .setDescription('Comma-separated list of player names')
-            .setRequired(true)
-    );
-
-export const run: SlashCommand['run'] = async (
-    game: MonopolyGame,
-    interaction: ChatInputCommandInteraction<'cached'>
-): Promise<void> => {
-    const playerNames = interaction.options.getString('players')?.split(',').map((name: string) => name.trim()) || [];
+export default class extends Command<typeof StartGameCommand> {
+    public override async chatInput(interaction: InteractionParam, args: ArgsParam<typeof StartGameCommand>,locale:string): Promise<void> {
+         const playerNames = interaction.options.getString('players')?.split(',').map((name: string) => name.trim()) || [];
     // Create Player instances from player names
     const players = playerNames.map(name => new Player(interaction.user));
     const chanceCards = loadCardData('src/structures/monopoly/JSON/chance.json');
@@ -65,5 +54,17 @@ const row = new ActionRowBuilder<ButtonBuilder>()
 await interaction.reply({ embeds: [rulesEmbed], components: [row] });
 gameDataMap.set(interaction.id, { playerNames, chanceCards, communityChestCards });
    
-};
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 

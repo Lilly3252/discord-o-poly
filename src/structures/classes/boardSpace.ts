@@ -1,7 +1,8 @@
-import { IProperty } from "#database/model/player";
-import { IBoardSpace } from "#type/IBoardSpace";
-import { Player } from "./players";
-import { Property } from "./property";
+import { IProperty } from "src/database/player.js";
+import { IBoardSpace } from "../types/monopoly/IBoardSpace.js";
+import { Player } from "./players.js";
+import { Property } from "./property.js";
+
 
 export function convertToProperty(item: IBoardSpace | IProperty): Property {
     return new Property({

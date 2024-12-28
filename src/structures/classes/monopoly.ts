@@ -1,15 +1,12 @@
-// models/MonopolyGame.ts
-import { getPlayerData, savePlayerData } from '#database/model/database';
-import { CommandInteraction } from 'discord.js';
-
-
-import { IMonopolyGame } from '#type/IMonopoly';
-import { BoardSpace } from './boardSpace';
-import { Card } from './card';
-import { Deck } from './deck';
-import { Player } from './players';
-import { Achievement } from './rewards';
-import { TurnManager } from './turnManager';
+import { CommandInteraction } from "discord.js";
+import { getPlayerData, savePlayerData } from "src/database/database.js";
+import { IMonopolyGame } from "../types/monopoly/IMonopoly.js";
+import { BoardSpace } from "./boardSpace.js";
+import { Card } from "./card.js";
+import { Deck } from "./deck.js";
+import { Player } from "./players.js";
+import { Achievement } from "./rewards.js";
+import { TurnManager } from "./turnManager.js";
 
 /**
  * Represents a Monopoly game.
@@ -21,7 +18,7 @@ export class MonopolyGame implements IMonopolyGame {
     chanceDeck: Deck;
     communityChestDeck: Deck;
     freeParkingMoney: number;
-    interaction: CommandInteraction;
+    interaction!: CommandInteraction;
 
     constructor(players: Player[], board: BoardSpace[], chanceCards: Card[], communityChestCards: Card[]) {
         this.players = players;
@@ -115,8 +112,8 @@ export class MonopolyGame implements IMonopolyGame {
     }
 
     handleTax(player: Player, space: BoardSpace): void {
-        player.updateMoney(-space.cost);
-        this.freeParkingMoney += space.cost;
+        player.updateMoney(-space.cost!);
+        this.freeParkingMoney += space.cost!;
         console.log(`${player.name} pays $${space.cost} in taxes`);
     }
 
@@ -141,11 +138,11 @@ export class MonopolyGame implements IMonopolyGame {
         this.sendToJail(player);
     }
 
-    drawChanceCard(): Card {
+    drawChanceCard(): Card |undefined {
         return this.chanceDeck.drawCard();
     }
 
-    drawCommunityChestCard(): Card {
+    drawCommunityChestCard(): Card | undefined {
         return this.communityChestDeck.drawCard();
     }
 }

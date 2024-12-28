@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IPlayer } from "./player";
+import { IPlayer } from "./player.js";
 
 interface IGame extends Document {
     board: any[];
@@ -15,3 +15,4 @@ const GameSchema: Schema = new Schema({
 
 const GameModel = mongoose.model<IGame>('Game', GameSchema);
 export { GameModel, IGame };
+

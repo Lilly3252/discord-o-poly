@@ -1,9 +1,21 @@
-import type { event } from '#type/event.js';
-import { type Client } from 'discord.js';
+import { once } from "node:events";
 
-export const name: event['name'] = 'ready';
-export const once: event['once'] = true;
+import { Client, Events } from "discord.js";
+import { injectable } from "tsyringe";
 
-export const run: event['run'] = async (client: Client): Promise<any> => {
-    console.log('Ready !!!!');
-};
+//import { logger } from "@yuudachi/framework";
+import type { Event } from "@yuudachi/framework/types";
+
+@injectable()
+export default class implements Event {
+	public name = "Client ready handling";
+
+	public event = Events.ClientReady as const;
+
+	public constructor(public readonly client: Client<true>) {}
+
+	public async execute(): Promise<void> {
+		await once(this.client, this.event);
+		console.log("connected via console.logging instead of logger");
+	}
+}

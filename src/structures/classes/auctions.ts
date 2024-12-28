@@ -1,6 +1,7 @@
-import { IAuction } from "#type/IAuction";
-import { Player } from "./players";
-import { Property } from "./property";
+import { IAuction } from "../types/monopoly/IAuction.js";
+import { Player } from "./players.js";
+import { Property } from "./property.js";
+
 
 /**
  * Represents an auction in the Monopoly game.
@@ -56,7 +57,7 @@ export class Auction implements IAuction {
     finalizeAuction() {
         if (this.highestBidder) {
             this.updatePlayerMoney();
-            this.highestBidder.addProperty(this.property.name);
+            this.highestBidder.addProperty(this.property.name); // to be corrected
             this.property.owner = this.highestBidder;
             console.log(`${this.highestBidder.name} won the auction for ${this.property.name} with a bid of $${this.highestBid}`);
         } else {

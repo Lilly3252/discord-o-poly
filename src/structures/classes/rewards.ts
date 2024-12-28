@@ -1,9 +1,9 @@
-import { convertToPlayer } from "#database/model/database";
-import { IPlayer, IProperty, PlayerModel } from "#database/model/player";
-import { IAchievement, RewardType } from "#type/rewards";
+
 import fs from 'fs';
 import path from 'path';
-
+import { IProperty } from 'src/database/player.js';
+import { IPlayer } from '../types/monopoly/IPlayers.js';
+import { IAchievement, RewardType } from '../types/monopoly/rewards.js';
 
 export class Achievement implements IAchievement {
     name: RewardType;
@@ -75,7 +75,7 @@ static async checkAndSaveAchievement(playerId: string, achievementName: string) 
     const groupSizes: { [key: string]: number } = {};
 
     properties.forEach(property => {
-        const groupKey = `${property.group[0]}-${property.group[2]}`;
+        const groupKey = `${property.group![0]}-${property.group![2]}`;
         if (!groupSizes[groupKey]) {
             groupSizes[groupKey] = 0;
         }
@@ -96,7 +96,7 @@ static async checkAndSaveAchievement(playerId: string, achievementName: string) 
     const groupKey = `${group[0]}-${group[2]}`;
     const totalPropertiesInGroup = group[2];
     const ownedPropertiesInGroup = properties.filter(property => {
-        return property.group[0] === group[0] && property.group[2] === group[2];
+        return property.group![0] === group[0] && property.group![2] === group[2];
     }).length;
 
     return ownedPropertiesInGroup === totalPropertiesInGroup
@@ -105,7 +105,7 @@ static async checkAndSaveAchievement(playerId: string, achievementName: string) 
 //  to find the group array for a given py name
  findGroupArray(propertyName: string, properties: IProperty[]): number[] | null {
     const property = properties.find(p => p.name === propertyName);
-    return property ? property.group : null;
+    return property ? property.group! : null;
 }
 /**
  * Checks if the player has earned the "Property Mogul" achievement.
@@ -121,7 +121,7 @@ static async checkPropertyMogul(player: IPlayer): Promise<void> {
 
     for (const color in colorGroups) {
         if (colorGroups[color] === 3) { // Assuming 3 properties per color group
-            await Achievement.checkAndSaveAchievement(player.userId, 'Property Mogul');
+            await Achievement.checkAndSaveAchievement(player.userId!, 'Property Mogul');
             break;
         }
     }
@@ -135,7 +135,7 @@ static async checkPropertyMogul(player: IPlayer): Promise<void> {
  static async checkHotelTycoon(player: IPlayer): Promise<void> {
     const hasHotel = player.properties.some(property => property.hotel);
     if (hasHotel) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'Hotel Tycoon');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'Hotel Tycoon');
     }
 }
 
@@ -146,7 +146,7 @@ static async checkPropertyMogul(player: IPlayer): Promise<void> {
  static async  checkRailroadBaron(player: IPlayer): Promise<void> {
     const railroads = player.properties.filter(property => property.type === 'railroad');
     if (railroads.length === 4) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'Railroad Baron');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'Railroad Baron');
     }
 }
 
@@ -157,7 +157,7 @@ static async checkPropertyMogul(player: IPlayer): Promise<void> {
  static async checkUtilityMaster(player: IPlayer): Promise<void> {
     const utilities = player.properties.filter(property => property.type === 'utility');
     if (utilities.length === 2) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'Utility Master');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'Utility Master');
     }
 }
 
@@ -168,7 +168,7 @@ static async checkPropertyMogul(player: IPlayer): Promise<void> {
  */
  static async checkRentCollector(player: IPlayer, rentCollected: number): Promise<void> {
     if (rentCollected >= 10) { 
-        await Achievement.checkAndSaveAchievement(player.userId, 'Rent Collector');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'Rent Collector');
     }
 }
 
@@ -179,7 +179,7 @@ static async checkPropertyMogul(player: IPlayer): Promise<void> {
  */
  static async checkLuckyRoller(player: IPlayer, doublesRolled: number): Promise<void> {
     if (doublesRolled >= 3) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'Lucky Roller');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'Lucky Roller');
     }
 }
 
@@ -190,7 +190,7 @@ static async checkPropertyMogul(player: IPlayer): Promise<void> {
  */
  static  async checkCommunityHelper(player: IPlayer[], communityChestCardsDrawn: number): Promise<void> {
     if (communityChestCardsDrawn >= 5) { 
-        await Achievement.checkAndSaveAchievement(player[0].userId, 'Community Helper');
+        await Achievement.checkAndSaveAchievement(player[0].userId!, 'Community Helper');
     }
 }
 
@@ -201,7 +201,7 @@ static async checkPropertyMogul(player: IPlayer): Promise<void> {
  */
  static async  checkChanceTaker(player: IPlayer[], chanceCardsDrawn: number): Promise<void> {
     if (chanceCardsDrawn >= 5) { 
-        await Achievement.checkAndSaveAchievement(player[0].userId, 'Chance Taker');
+        await Achievement.checkAndSaveAchievement(player[0].userId!, 'Chance Taker');
     }
 }
 
@@ -212,7 +212,7 @@ static async checkPropertyMogul(player: IPlayer): Promise<void> {
  */
 static async  checkJailBreaker(player: IPlayer, gotOutOfJailWithoutCard: boolean): Promise<void> {
     if (gotOutOfJailWithoutCard) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'Jail Breaker');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'Jail Breaker');
     }
 }
 
@@ -223,7 +223,7 @@ static async  checkJailBreaker(player: IPlayer, gotOutOfJailWithoutCard: boolean
  */
 static  async  checkBigSpender(player: IPlayer, amountSpent: number): Promise<void> {
     if (amountSpent >= 1000) { 
-        await Achievement.checkAndSaveAchievement(player.userId, 'Big Spender');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'Big Spender');
     }
 }
 
@@ -234,7 +234,7 @@ static  async  checkBigSpender(player: IPlayer, amountSpent: number): Promise<vo
  */
 static  async  checkMonopolyMaster(player: IPlayer, gameWon: boolean): Promise<void> {
     if (gameWon) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'Monopoly Master');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'Monopoly Master');
     }
 }
 
@@ -245,7 +245,7 @@ static  async  checkMonopolyMaster(player: IPlayer, gameWon: boolean): Promise<v
  */
 static async  checkBankruptcySurvivor(player: IPlayer, turnsSurvived: number): Promise<void> {
     if (turnsSurvived >= 20) { 
-        await Achievement.checkAndSaveAchievement(player.userId, 'Bankruptcy Survivor');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'Bankruptcy Survivor');
     }
 }
 
@@ -256,7 +256,7 @@ static async  checkBankruptcySurvivor(player: IPlayer, turnsSurvived: number): P
  */
 static  async  checkTradeExpert(player: IPlayer, tradesCompleted: number): Promise<void> {
     if (tradesCompleted >= 5) { 
-        await Achievement.checkAndSaveAchievement(player.userId, 'Trade Expert');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'Trade Expert');
     }
 }
 
@@ -266,7 +266,7 @@ static  async  checkTradeExpert(player: IPlayer, tradesCompleted: number): Promi
  */
  static async  checkFirstPurchase(player: IPlayer): Promise<void> {
     if (player.properties.length === 1) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'First Purchase');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'First Purchase');
     }
 }
 
@@ -277,7 +277,7 @@ static  async  checkTradeExpert(player: IPlayer, tradesCompleted: number): Promi
  */
  static async  checkFirstRent(player: IPlayer, rentCollected: number): Promise<void> {
     if (rentCollected === 1) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'First Rent');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'First Rent');
     }
 }
 
@@ -288,7 +288,7 @@ static  async  checkTradeExpert(player: IPlayer, tradesCompleted: number): Promi
  static async  checkFirstHouse(player: IPlayer): Promise<void> {
     const hasHouse = convertToPlayer(player).properties.some(property => property.houses === 1);
     if (hasHouse) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'First House');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'First House');
     }
 }
 
@@ -299,7 +299,7 @@ static  async  checkTradeExpert(player: IPlayer, tradesCompleted: number): Promi
  static async  checkFirstHotel(player: IPlayer): Promise<void> {
     const hasHotel = player.properties.some(property => property.hotel);
     if (hasHotel) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'First Hotel');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'First Hotel');
     }
 }
 
@@ -310,7 +310,7 @@ static  async  checkTradeExpert(player: IPlayer, tradesCompleted: number): Promi
  */
  static async  checkFirstTrade(player: IPlayer, tradesCompleted: number): Promise<void> {
     if (tradesCompleted === 1) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'First Trade');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'First Trade');
     }
 }
 
@@ -320,7 +320,7 @@ static  async  checkTradeExpert(player: IPlayer, tradesCompleted: number): Promi
  */
  static async  checkFirstJail(player: IPlayer): Promise<void> {
     if (player.inJail && player.jailTurns === 1) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'First Jail');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'First Jail');
     }
 }
 
@@ -330,7 +330,7 @@ static  async  checkTradeExpert(player: IPlayer, tradesCompleted: number): Promi
  */
  static async checkFirstGetOutOfJail(player: IPlayer): Promise<void> {
     if (!player.inJail && player.jailTurns > 0) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'First Get Out of Jail');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'First Get Out of Jail');
     }
 }
 
@@ -340,7 +340,7 @@ static  async  checkTradeExpert(player: IPlayer, tradesCompleted: number): Promi
  */
  static async checkFirstBankruptcy(player: IPlayer): Promise<void> {
     if (player.isBankrupt) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'First Bankruptcy');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'First Bankruptcy');
     }
 }
 
@@ -351,7 +351,7 @@ static  async  checkTradeExpert(player: IPlayer, tradesCompleted: number): Promi
  */
  static async checkFirstWin(player: IPlayer, gameWon: boolean): Promise<void> {
     if (gameWon) {
-        await Achievement.checkAndSaveAchievement(player.userId, 'First Win');
+        await Achievement.checkAndSaveAchievement(player.userId!, 'First Win');
     }
 }
 

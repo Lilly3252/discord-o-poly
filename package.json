@@ -3,15 +3,29 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node dist/index.js"
+    "start": "node --env-file=.env dist/index.js",
+		"deploy": "node dist/deploy.js",
+		"lint": "eslint .",
+		"build": "npx rimraf dist && tsc",
+		"format": "prettier --write .",
+		"watch": "tsc --watch",
+		"prettier:check": "prettier --check .",
+		"type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.65",
+    "@yuudachi/framework": "^0.3.5",
     "discord.js": "^14.16.3",
+    "i18next": "^24.2.0",
     "mongoose": "^8.9.2"
   },
   "devDependencies": {
+    "@skyra/i18next-backend": "^2.0.5",
     "@types/node": "^22.10.2",
+    "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
+    "eslint": "^9.17.0",
+    "readdirp": "^4.0.2",
     "typescript": "^5.7.2"
   }
 }

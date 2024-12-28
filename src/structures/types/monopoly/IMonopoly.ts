@@ -1,9 +1,10 @@
-import { BoardSpace } from "#structures/monopoly/classes/boardSpace";
-import { Card } from "#structures/monopoly/classes/card";
-import { Deck } from "#structures/monopoly/classes/deck";
-import { Player } from "#structures/monopoly/classes/players";
-import { TurnManager } from "#structures/monopoly/classes/turnManager";
+
 import { CommandInteraction } from "discord.js";
+import { BoardSpace } from "../../classes/boardSpace.js";
+import { Card } from "../../classes/card.js";
+import { Deck } from "../../classes/deck.js";
+import { Player } from "../../classes/players.js";
+import { TurnManager } from "../../classes/turnManager.js";
 
 /**
  * Represents a Monopoly game.
@@ -138,12 +139,12 @@ export interface IMonopolyGame {
      * 
      * @returns The drawn Chance card.
      */
-    drawChanceCard(): Card;
+    drawChanceCard(): Card | undefined;
 
     /**
      * Draws a Community Chest card from the deck.
      * 
      * @returns The drawn Community Chest card.
      */
-    drawCommunityChestCard(): Card;
+    drawCommunityChestCard(): Card | undefined;
 }

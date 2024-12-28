@@ -1,8 +1,8 @@
-// models/Trade.ts
 
-import { ITrade } from '#type/ITrade';
-import { Player } from './players';
-import { Property } from './property';
+import { ITrade } from "../types/monopoly/ITrade.js";
+import { Player } from "./players.js";
+import { Property } from "./property.js";
+
 
 /**
  * Represents a trade between two players in the Monopoly game.

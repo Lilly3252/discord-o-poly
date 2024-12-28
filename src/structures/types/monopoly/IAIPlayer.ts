@@ -1,5 +1,6 @@
-import { MonopolyGame } from "#structures/monopoly/classes/monopoly";
-import { Player } from "#structures/monopoly/classes/players";
+import { MonopolyGame } from "../../classes/monopoly.js";
+import { Player } from "../../classes/players.js";
+
 /**
  * Represents an AI player in the Monopoly game.
  */

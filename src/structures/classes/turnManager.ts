@@ -1,5 +1,5 @@
-import { ITurnManager } from "#type/ITurnManager";
-import { Player } from "./players";
+import { ITurnManager } from "../types/monopoly/ITurnManager.js";
+import { Player } from "./players.js";
 
 /**
  * Manages the turns in the Monopoly game.

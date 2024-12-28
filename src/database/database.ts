@@ -1,13 +1,13 @@
-import { BoardSpace } from "#structures/monopoly/classes/boardSpace";
-import { Card } from "#structures/monopoly/classes/card";
-import { MonopolyGame } from "#structures/monopoly/classes/monopoly";
-import { Player as PlayerClass } from "#structures/monopoly/classes/players";
-import { TurnManager } from "#structures/monopoly/classes/turnManager";
 import fs from 'fs';
 import path from 'path';
-import { BoardSpaceModel, IBoardSpace } from "./boardSpace";
-import { GameModel } from "./game";
-import { IPlayer, PlayerModel } from './player';
+import { BoardSpace } from '../structures/classes/boardSpace.js';
+import { Card } from '../structures/classes/card.js';
+import { MonopolyGame } from '../structures/classes/monopoly.js';
+import { Player as PlayerClass } from "../structures/classes/players.js";
+import { TurnManager } from '../structures/classes/turnManager.js';
+import { BoardSpaceModel, IBoardSpace } from "./boardSpace.js";
+import { GameModel } from "./game.js";
+import { IPlayer, PlayerModel } from './player.js';
 
 /**
  * Converts a PlayerClass instance to an IPlayer object.
@@ -33,7 +33,7 @@ const getBoardData = async (): Promise<IBoardSpace[]> => {
     try {
         const boardData = await BoardSpaceModel.find().exec();
         return boardData;
-    } catch (err) {
+    } catch (err:any) {
         console.error(err.message);
         return [];
     }
@@ -167,7 +167,7 @@ const savePlayerData = async (player: IPlayer): Promise<IPlayer> => {
         }
         console.log('Player data saved');
         return player;
-    } catch (err) {
+    } catch (err:any) {
         console.error(err.message);
         throw err;
     }
@@ -182,7 +182,7 @@ const getPlayerData = async (playerName: string): Promise<IPlayer | null> => {
     try {
         const playerData = await PlayerModel.findOne({ name: playerName });
         return playerData;
-    } catch (err) {
+    } catch (err:any) {
         console.error(err.message);
         return null;
     }
