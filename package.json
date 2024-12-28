@@ -11,8 +11,6 @@
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.5",
     "mongoose": "^8.5.3",
-    "sequelize": "^6.37.3",
-    "sqlite3": "^5.1.7",
     "toml": "^3.0.0",
     "typescript": "^5.4.5"
   }
